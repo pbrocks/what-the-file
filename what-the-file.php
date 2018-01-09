@@ -3,8 +3,8 @@
 	Plugin Name: What The File
 	Plugin URI: http://www.barrykooij.com/what-the-file/
 	Description: What The File adds an option to your toolbar showing what file and template parts are used to display the page you’re currently viewing. You can click the file name to directly edit it through the theme editor. Supports BuddyPress and Roots Theme. More information can be found at the <a href='http://wordpress.org/extend/plugins/what-the-file/'>WordPress plugin page</a>.
-	Version: 1.5.4
-	Author: Never5
+	Version: 1.5.4.1
+	Author: Never5 & pbrocks
 	Author URI: http://www.never5.com/
 	License: GPL v3
 
@@ -209,7 +209,7 @@ class WhatTheFile {
 		// Do Roots Theme check
 		if ( function_exists( 'roots_template_path' ) ) {
 			$this->template_name = basename( roots_template_path() );
-		} else if( function_exists( 'Roots\Sage\Wrapper\template_path' ) ) {
+		} else if ( function_exists( 'Roots\Sage\Wrapper\template_path' ) ) {
 			$this->template_name = basename( Roots\Sage\Wrapper\template_path() );
 		}
 
@@ -226,12 +226,14 @@ class WhatTheFile {
 		$edit_allowed = $this->is_file_editing_allowed();
 
 		// Add top menu
-		$wp_admin_bar->add_menu( array(
-			'id'     => 'wtf-bar',
-			'parent' => 'top-secondary',
-			'title'  => __( 'What The File', 'what-the-file' ),
-			'href'   => false
-		) );
+		$wp_admin_bar->add_menu(
+			array(
+				'id'     => 'wtf-bar',
+				'parent' => 'top-secondary',
+				'title'  => __( 'What The File', 'what-the-file' ),
+				'href'   => false,
+			)
+		);
 
 		// Check if template file exists in child theme
 		$theme = get_stylesheet();
@@ -240,23 +242,27 @@ class WhatTheFile {
 		}
 
 		// Add current page
-		$wp_admin_bar->add_menu( array(
-			'id'     => 'wtf-bar-template-file',
-			'parent' => 'wtf-bar',
-			'title'  => $this->get_current_page(),
-			'href'   => ( ( $edit_allowed ) ? get_admin_url() . 'theme-editor.php?file=' . $this->get_current_page() . '&theme=' . $theme : false )
-		) );
+		$wp_admin_bar->add_menu(
+			array(
+				'id'     => 'wtf-bar-template-file',
+				'parent' => 'wtf-bar',
+				'title'  => $this->get_current_page(),
+				'href'   => ( ( $edit_allowed ) ? get_admin_url() . 'theme-editor.php?file=' . $this->get_current_page() . '&theme=' . $theme : false ),
+			)
+		);
 
 		// Check if theme uses template parts
 		if ( count( $this->template_parts ) > 0 ) {
 
 			// Add template parts menu item
-			$wp_admin_bar->add_menu( array(
-				'id'     => 'wtf-bar-template-parts',
-				'parent' => 'wtf-bar',
-				'title'  => 'Template Parts',
-				'href'   => false
-			) );
+			$wp_admin_bar->add_menu(
+				array(
+					'id'     => 'wtf-bar-template-parts',
+					'parent' => 'wtf-bar',
+					'title'  => 'Template Parts',
+					'href'   => false,
+				)
+			);
 
 			// Loop through template parts
 			foreach ( $this->template_parts as $template_part ) {
@@ -268,23 +274,26 @@ class WhatTheFile {
 				}
 
 				// Add template part to sub menu item
-				$wp_admin_bar->add_menu( array(
-					'id'     => 'wtf-bar-template-part-' . $template_part,
-					'parent' => 'wtf-bar-template-parts',
-					'title'  => $template_part,
-					'href'   => ( ( $edit_allowed ) ? get_admin_url() . 'theme-editor.php?file=' . $template_part . '&theme=' . $theme : false )
-				) );
+				$wp_admin_bar->add_menu(
+					array(
+						'id'     => 'wtf-bar-template-part-' . $template_part,
+						'parent' => 'wtf-bar-template-parts',
+						'title'  => $template_part,
+						'href'   => ( ( $edit_allowed ) ? get_admin_url() . 'theme-editor.php?file=' . $template_part . '&theme=' . $theme : false ),
+					)
+				);
 			}
-
 		}
 
 		// Add powered by
-		$wp_admin_bar->add_menu( array(
-			'id'     => 'wtf-bar-powered-by',
-			'parent' => 'wtf-bar',
-			'title'  => 'Powered by Never5',
-			'href'   => 'http://www.never5.com?utm_source=plugin&utm_medium=wtf-bar&utm_campaign=what-the-file'
-		) );
+		$wp_admin_bar->add_menu(
+			array(
+				'id'     => 'wtf-bar-powered-by',
+				'parent' => 'wtf-bar',
+				'title'  => 'Powered by Never5',
+				'href'   => 'http://www.never5.com?utm_source=plugin&utm_medium=wtf-bar&utm_campaign=what-the-file',
+			)
+		);
 
 	}
 

@@ -6,13 +6,13 @@ class WTF_Nag {
 	 * Setup the class
 	 */
 	public function setup() {
-		
+
 		// catch nag hide
 		$this->catch_hide_notice();
-		
+
 		// bind nag
 		$this->bind();
-		
+
 	}
 
 	/**
@@ -110,11 +110,17 @@ class WTF_Nag {
 	public function display_admin_notice() {
 
 		$query_params = $this->get_admin_querystring_array();
-		$query_string = '?' . http_build_query( array_merge( $query_params, array( WhatTheFile::OPTION_ADMIN_NOTICE_KEY => '1' ) ) );
+		$query_string = '?' . http_build_query(
+			array_merge(
+				$query_params, array(
+					WhatTheFile::OPTION_ADMIN_NOTICE_KEY => '1',
+				)
+			)
+		);
 
-		echo '<div class="updated"><p>';
-		printf( __( "You've been using <b>What The File</b> for some time now, could you please give it a review at wordpress.org? <br /><br /> <a href='%s' target='_blank'>Yes, take me there!</a> - <a href='%s'>I've already done this!</a><br/><br/><small><a href='http://www.never5.com/' target='_blank'>Check out other Never5 plugins</a></small>" ), 'http://wordpress.org/support/view/plugin-reviews/what-the-file', $query_string );
-		echo "</p></div>";
+		echo '<div class="notice notice-info is-dismissible"><p>';
+		printf( __( "You've been using <b>What The File</b> for some time now, could you please give it a review at wordpress.org? <br /><br /> <a href='%1\$s' target='_blank'>Yes, take me there!</a> -  <a href='%2\$s' target='_blank'>Sure, I'll lie and say I've done it!</a> - <a href='%2\$s'>I've already done this!</a><br/><br/><small><a href='http://www.never5.com/' target='_blank'>Check out other Never5 plugins</a></small>" ), 'http://wordpress.org/support/view/plugin-reviews/what-the-file', $query_string );
+		echo '</p></div>';
 
 	}
 }
